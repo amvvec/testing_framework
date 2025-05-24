@@ -1,3 +1,1 @@
-#define TEST(group, test_name) { \
-     \
-}
+#include <unit/unit.h>
