@@ -28,11 +28,12 @@
 
 #define EXPECT_TRUE(condition) \
     do { \
-        if(!condition) { \
+        std::cout << "Evaluating condition: " #condition << " → " << ((condition) ? "true" : "false") << "\n"; \
+        if (!(condition)) { \
             std::cout << "[ FAIL ] " << __FILE__ << ":" << __LINE__ << ": EXPECT_TRUE(" #condition ") failed\n"; \
             if (unit::current_test_failed) *unit::current_test_failed = true; \
         } \
-    } while(0)
+    } while (0)
 
 #define ASSERT_TRUE(condition) \
     do { \
