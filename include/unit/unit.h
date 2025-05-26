@@ -7,7 +7,7 @@
 #include "macros.h"
 
 namespace unit {
-    inline thread_local bool* current_test_failed;
+    inline thread_local bool *current_test_failed;
 
     struct TestCase {
         std::string group;
@@ -18,7 +18,9 @@ namespace unit {
     void register_test(const std::string &group, const std::string &name, std::function<void()> fun);
 
     struct AutoRegister {
-        AutoRegister(const std::string group, const std::string &name, std::function<void()> fun) {
+        AutoRegister(const std::string group, 
+                     const std::string &name, 
+                     std::function<void()> fun) {
             register_test(group, name, fun);
         }
     };

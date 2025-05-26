@@ -3,16 +3,6 @@
 #include <chrono>
 
 namespace unit {
-
-inline void report_failure(const char* file, int line, const char* expr, 
-                           const std::string& expected, const std::string& actual, 
-                           bool is_assert, bool abort = false) {
-    std::cerr << "[ FAIL ] " << file << ":" << line << ": " << expr << " failed\n"
-              << "  Expected: " << expected << "\n"
-              << "  Actual  : " << actual << "\n";
-    if (current_test_failed) *current_test_failed = true;
-    // if (abort) std::abort(); // или просто return из макроса
-}
     
 int run_all_tests() {
     const auto &tests = get_all_tests();
@@ -34,14 +24,11 @@ int run_all_tests() {
         try {
             unit::current_test_failed = &test_failed;
             test.fun();
-            std::cerr << "[ Debug ] test_failed = " << std::boolalpha << test_failed << "\n";
         } catch (...) {
             test_failed = true;
             std::cerr << "\033[31m[ FAIL ]\033[0m Unhandled exception\n";
         }
-        ///////////////////////////
-        // std::cout << "  (Debug) test_failed = " << test_failed << "\n"; ////////////
-
+        
         auto end = clock::now();
 
         auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
@@ -54,7 +41,7 @@ int run_all_tests() {
             failed++;
         }
 
-        std::cout << "\033[90m[ DONE ]\033[0m " << test.group << "." << test.name << "\n";
+        std::cout << std::endl << std::endl;
     }
 
     auto total_end = clock::now();
@@ -65,6 +52,7 @@ int run_all_tests() {
     std::cout << "  Passed : " << passed << "\n";
     std::cout << "  Failed : " << failed << "\n";
     std::cout << "  Time   : " << total_ms << " ms\n";
+    std::cout << std::endl;
 
     return failed == 0 ? 0 : 1;
 }
