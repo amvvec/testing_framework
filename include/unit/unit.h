@@ -1,4 +1,6 @@
 #pragma once
+#ifndef UNIT_H
+#define UNIT_H
 
 #include <string>
 #include <vector>
@@ -6,7 +8,8 @@
 
 #include "macros.h"
 
-namespace unit {
+namespace unit
+{
     inline thread_local bool *current_test_failed;
 
     struct TestCase {
@@ -15,7 +18,9 @@ namespace unit {
         std::function<void()> fun;
     };
 
-    void register_test(const std::string &group, const std::string &name, std::function<void()> fun);
+    void register_test(const std::string &group, 
+                       const std::string &name, 
+                       std::function<void()> fun);
 
     struct AutoRegister {
         AutoRegister(const std::string group, 
@@ -26,5 +31,16 @@ namespace unit {
     };
 
     const std::vector<TestCase> &get_all_tests();
-    int run_all_tests();
+    int run_all_tests(const std::string &filter = "");
+
+    struct Fixture {
+        int value;
+    };
+
+    template<typename T>
+    inline void SetUp(T&) {}
+
+    template<typename T>
+    inline void TearDown(T&) {}
 }
+#endif // !UNIT_H
