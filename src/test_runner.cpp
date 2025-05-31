@@ -4,9 +4,27 @@
 
 namespace unit {
     
-int run_all_tests(const std::string &filter) {
-    const auto &all_tests_call = get_all_tests();
+int run_all_tests(const std::string& filter, bool list_only) {
+    const auto& all_tests = get_all_tests();
     std::vector<TestCase> tests;
+
+    for (const auto& test : all_tests) {
+        std::string fullname = test.group + "." + test.name;
+        if (filter.empty() || fullname.find(filter) != std::string::npos) {
+            tests.push_back(test);
+        }
+    }
+
+    if (list_only) {
+        std::cout << "[ Listing " << tests.size() << " test(s) matching filter \"" << filter << "\": ]\n";
+        for (const auto& test : tests) {
+            std::cout << "  " << test.group << "." << test.name << "\n";
+        }
+        std::cout << std::endl;
+        return 0;
+    }
+    
+    const auto &all_tests_call = get_all_tests();
     for(const auto &test : all_tests_call) {
         std::string fullname = test.group + "." + test.name;
         if(filter.empty() || fullname.find(filter) != std::string::npos);
