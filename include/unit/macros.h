@@ -1,7 +1,10 @@
+#pragma once
+#ifndef MACROS_H
+#define MACROS_H
+
 #include <iostream>
 
-namespace macros
-{
+namespace macros {
 #define TEST(group, name) \
     static void test_##group##_##name(); \
     static ::unit::AutoRegister auto_##group##_##name(#group, #name, &test_##group##_##name); \
@@ -19,8 +22,7 @@ namespace macros
     static void Fixture##_##TestName##_test(Fixture &fix)
     
 #define EXPECT_EQ(val1, val2) \
-    do \
-    { \
+    do { \
         if ((val1) != (val2)) { \
             std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
                       << ": EXPECT_EQ(" #val1 ", " #val2 ") failed\n" \
@@ -31,8 +33,7 @@ namespace macros
     } while (0)
 
 #define ASSERT_EQ(val1, val2) \
-    do \
-    { \
+    do { \
         if ((val1) != (val2)) { \
             std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
                       << ": ASSERT_EQ(" #val1 ", " #val2 ") failed\n" \
@@ -44,8 +45,7 @@ namespace macros
     } while (0)
 
 #define EXPECT_TRUE(condition) \
-    do \
-    { \
+    do { \
         if (!(condition)) { \
             std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
                       << ": EXPECT_TRUE(" #condition ") failed\n"; \
@@ -54,8 +54,7 @@ namespace macros
     } while (0)
 
 #define ASSERT_TRUE(condition) \
-    do \
-    { \
+    do { \
         if (!(condition)) { \
             std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
                       << ": ASSERT_TRUE(" #condition ") failed\n"; \
@@ -65,8 +64,7 @@ namespace macros
     } while (0)
 
 #define EXPECT_NE(val1, val2) \
-    do \
-    { \
+    do { \
         if((val1) == (val2)) { \
             std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
                       << ": EXPECT_NE(" #val1 ", " #val2 ") failed\n" \
@@ -77,8 +75,7 @@ namespace macros
     } while(0)
 
 #define ASSERT_NE(val1, val2) \
-    do \
-    { \
+    do { \
         if((val1) == (val2)) { \
             std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
                       << ": ASSERT_NE(" #val1 ", " #val2 ") failed\n" \
@@ -90,8 +87,7 @@ namespace macros
     } while(0)
 
 #define EXPECT_FALSE(condition) \
-    do \
-    { \
+    do { \
         if(condition) { \
             std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
                       << ": EXPECT_FALSE(" #condition ") failed\n"; \
@@ -100,8 +96,7 @@ namespace macros
     } while(0)
 
 #define ASSERT_FALSE(condition) \
-    do \
-    { \
+    do { \
         if(condition) { \
                 std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
                           << ": ASSERT_FALSE(" #condition ") failed\n"; \
@@ -109,4 +104,5 @@ namespace macros
                 return; \
         } \
     } while(0)
-} // macros
+} // namespace macros
+#endif // !MACROS_H

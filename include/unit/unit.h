@@ -2,14 +2,12 @@
 #ifndef UNIT_H
 #define UNIT_H
 
+#include "macros.h"
 #include <string>
 #include <vector>
 #include <functional>
 
-#include "macros.h"
-
-namespace unit
-{
+namespace unit {
 inline thread_local bool *current_test_failed;
 
 struct TestCase {
@@ -18,14 +16,10 @@ struct TestCase {
     std::function<void()> fun;
 };
 
-void register_test(const std::string &group, 
-                   const std::string &name, 
-                   std::function<void()> fun);
+void register_test(const std::string &group, const std::string &name, std::function<void()> fun);
 
 struct AutoRegister {
-    AutoRegister(const std::string group, 
-                 const std::string &name, 
-                 std::function<void()> fun) {
+    AutoRegister(const std::string group, const std::string &name, std::function<void()> fun) {
         register_test(group, name, fun);
     }
 };
@@ -49,5 +43,5 @@ struct CommandLineOption {
 };
 
 CommandLineOption parse_argument(int argc, char **argv);
-}
+} // namespace unit
 #endif // !UNIT_H

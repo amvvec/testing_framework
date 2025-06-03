@@ -1,7 +1,6 @@
 #include <unit/unit.h>
 
-namespace unit
-{
+namespace unit {
     void SetUp(unit::Fixture &fix) {
         fix.value = 10;
     }
@@ -9,4 +8,4 @@ namespace unit
     void TearDown(unit::Fixture &) {
         // ...
     }
-}
+} // namespace unit

@@ -1,12 +1,13 @@
 #include <unit/unit.h>
 #include <string>
 
-namespace unit
-{
+namespace unit {
 CommandLineOption parse_argument(int argc, char **argv) {
     CommandLineOption option;
+
     for(int i = 0; i < argc; i++) {
         std::string arg = argv[i];
+
         if(arg.rfind("--filter=", 0) == 0) {
             option.filter = arg.substr(9);
         }
@@ -14,6 +15,7 @@ CommandLineOption parse_argument(int argc, char **argv) {
             option.list_only = true;
         }
     }
+    
     return option;
 }
-}
+} // namespace unit

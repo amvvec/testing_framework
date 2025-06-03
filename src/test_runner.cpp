@@ -2,14 +2,15 @@
 #include <iostream>
 #include <chrono>
 
-namespace unit {
-    
+namespace unit {    
 int run_all_tests(const std::string& filter, bool list_only) {
     const auto& all_tests = get_all_tests();
+
     std::vector<TestCase> tests;
 
     for (const auto& test : all_tests) {
         std::string fullname = test.group + "." + test.name;
+        
         if (filter.empty() || fullname.find(filter) != std::string::npos) {
             tests.push_back(test);
         }
@@ -17,18 +18,23 @@ int run_all_tests(const std::string& filter, bool list_only) {
 
     if (list_only) {
         std::cout << "[ Listing " << tests.size() << " test(s) matching filter \"" << filter << "\": ]\n";
+
         for (const auto& test : tests) {
             std::cout << "  " << test.group << "." << test.name << "\n";
         }
+        
         std::cout << std::endl;
         return 0;
     }
     
     const auto &all_tests_call = get_all_tests();
+
     for(const auto &test : all_tests_call) {
         std::string fullname = test.group + "." + test.name;
-        if(filter.empty() || fullname.find(filter) != std::string::npos);
-        tests.push_back(test);
+
+        if(filter.empty() || fullname.find(filter) != std::string::npos) {
+            tests.push_back(test);
+        }
     }
 
     if(filter.size()) {
@@ -42,29 +48,29 @@ int run_all_tests(const std::string& filter, bool list_only) {
     auto total_start = clock::now();
 
     for(const auto &test : all_tests_call) {
-        std::cout << "\033[33m[ RUN ]\033[0m " 
-        << test.group << "." << test.name << "\n";
+
+        std::cout << "\033[33m[ RUN ]\033[0m " << test.group << "." << test.name << "\n";
 
         auto start = clock::now();
-
         bool test_failed = false;
 
         try {
             unit::current_test_failed = &test_failed;
             test.fun();
-        } catch (...) {
+        }
+        catch (...) {
             test_failed = true;
             std::cerr << "\033[31m[ FAIL ]\033[0m Unhandled exception\n";
         }
         
         auto end = clock::now();
-
         auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 
         if(!test_failed) {
             std::cout << "\033[32m[ OK ]\033[0m \t" << test.group << "." << test.name << " (" << ms << " ms)\n";
             passed++;
-        } else {
+        }
+        else {
             std::cout << "\033[31m[ FAIL ]\033[0m \t" << test.group << "." << test.name << " (" << ms << " ms)\n";
             failed++;
         }
@@ -84,5 +90,4 @@ int run_all_tests(const std::string& filter, bool list_only) {
 
     return failed == 0 ? 0 : 1;
 }
-
 } // namespace unit
