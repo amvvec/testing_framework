@@ -1,0 +1,38 @@
+name: Build and Test (GCC + Clang)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        compiler: [gcc, clang]
+
+    env:
+      BUILD_DIR: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt update && sudo apt install -y cmake clang g++-13
+
+      - name: Configure CMake
+        run: |
+          mkdir -p $BUILD_DIR
+          cmake -B $BUILD_DIR -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=${{ matrix.compiler }}
+
+      - name: Build
+        run: cmake --build $BUILD_DIR --config Release
+
+      - name: Run tests
+        run: |
+          cd $BUILD_DIR
+          ctest --output-on-failure

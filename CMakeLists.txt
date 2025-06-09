@@ -7,17 +7,19 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pedantic -Wall -Werror -Wextra")
 
 ################################################################################
 
-# # Include header directory
-# include_directories(include)
+# Include header directory
+include_directories(include)
 
-# # Find all sources
-# file(GLOB SRC_FILE src/*.cpp)
-# file(GLOB TEST_FILES tests/*.cpp)
+# Find all sources
+file(GLOB SRC_FILE src/*.cpp)
+file(GLOB TEST_FILES tests/*.cpp)
 
-# # Create executable file
-# add_executable(launch ${SRC_FILE} ${TEST_FILES})
+# Create executable file
+add_executable(launch ${SRC_FILE} ${TEST_FILES})
 
-# # Create lib
+################################################################################
+
+# Create lib
 # file(GLOB UNIT_SRC ${SRC_FILE}) # WARNING: edit this shit
 # add_library(unit STATIC ${UNIT_SRC})
 
@@ -30,11 +32,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pedantic -Wall -Werror -Wextra")
 #     add_library(unit STATIC ${UNIT_SRC})
 # endif()
 
-################################################################################
-add_subdirectory(. test_framework_build)
+# ################################################################################
+# add_subdirectory(. test_framework_build)
 
-file(GLOB TEST_FILES tests/*.cpp)
+# file(GLOB TEST_FILES tests/*.cpp)
 
-add_executable(launch ${TEST_FILES})
+# add_executable(launch ${TEST_FILES})
 
-target_link_libraries(launch PRIVATE unit)
+# target_link_libraries(launch PRIVATE unit)

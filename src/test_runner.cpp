@@ -2,13 +2,13 @@
 #include <iostream>
 #include <chrono>
 
-namespace unit {    
-int run_all_tests(const std::string& filter, bool list_only) {
-    const auto& all_tests = get_all_tests();
+namespace unit {
+int run_all_tests(const std::string &filter, bool list_only) {
+    const auto &all_tests_call = get_all_tests();
 
     std::vector<TestCase> tests;
 
-    for (const auto& test : all_tests) {
+    for (const auto &test : all_tests_call) {
         std::string fullname = test.group + "." + test.name;
         
         if (filter.empty() || fullname.find(filter) != std::string::npos) {
@@ -19,17 +19,15 @@ int run_all_tests(const std::string& filter, bool list_only) {
     if (list_only) {
         std::cout << "[ Listing " << tests.size() << " test(s) matching filter \"" << filter << "\": ]\n";
 
-        for (const auto& test : tests) {
+        for (const auto &test : tests) {
             std::cout << "  " << test.group << "." << test.name << "\n";
         }
         
         std::cout << std::endl;
         return 0;
     }
-    
-    const auto &all_tests_call = get_all_tests();
 
-    for(const auto &test : all_tests_call) {
+    for(const auto &test : tests) {
         std::string fullname = test.group + "." + test.name;
 
         if(filter.empty() || fullname.find(filter) != std::string::npos) {
@@ -47,7 +45,7 @@ int run_all_tests(const std::string& filter, bool list_only) {
     using clock = std::chrono::steady_clock;
     auto total_start = clock::now();
 
-    for(const auto &test : all_tests_call) {
+    for(const auto &test : tests) {
 
         std::cout << "\033[33m[ RUN ]\033[0m " << test.group << "." << test.name << "\n";
 
