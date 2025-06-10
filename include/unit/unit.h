@@ -16,6 +16,13 @@ struct TestCase {
     std::function<void()> fun;
 };
 
+struct ParameterTestCase {
+    std::string group;
+    std::string name;
+    std::function<void()> fun;
+    int parameter_list;
+};
+
 void register_test(const std::string &group, const std::string &name, std::function<void()> fun);
 
 struct AutoRegister {
