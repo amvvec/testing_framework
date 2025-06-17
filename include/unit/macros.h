@@ -27,87 +27,101 @@
     } \
     void group##_##name##_implementation(parameter p);
 
+// Mock macros
+#define EXPECT_CALLS(mock, n) \
+    EXPECT_EQ((mock).call(), n)
+
+#define ASSERT_CALLS(mock, n) \
+    ASSERT_EQ((mock).call(), n)
+
+#define EXPECT_CALLED(mock) \
+    EXPECT_TRUE((mock).is_called())
+
+#define ASSERT_CALLED(mock) \
+    ASSERT_TRUE((mock).is_called())
+
+// Standard macros
 #define EXPECT_EQ(val1, val2) \
-do { \
-    if ((val1) != (val2)) { \
-        std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
-                  << ": EXPECT_EQ(" #val1 ", " #val2 ") failed\n" \
-                  << "  Expected: " << (val2) << "\n" \
-                  << "  Actual  : " << (val1) << "\n"; \
-        if (unit::current_test_failed) *unit::current_test_failed = true; \
-    } \
-} while (0)
+    do { \
+        if ((val1) != (val2)) { \
+            std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
+                      << ": EXPECT_EQ(" #val1 ", " #val2 ") failed\n" \
+                      << "  Expected: " << (val2) << "\n" \
+                      << "  Actual  : " << (val1) << "\n"; \
+            if (unit::current_test_failed) *unit::current_test_failed = true; \
+        } \
+    } while (0)
 
 #define ASSERT_EQ(val1, val2) \
-do { \
-    if ((val1) != (val2)) { \
-        std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
-                  << ": ASSERT_EQ(" #val1 ", " #val2 ") failed\n" \
-                  << "  Expected: " << (val2) << "\n" \
-                  << "  Actual  : " << (val1) << "\n"; \
-        if (unit::current_test_failed) *unit::current_test_failed = true; \
-        return; \
-    } \
-} while (0)
+    do { \
+        if ((val1) != (val2)) { \
+            std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
+                      << ": ASSERT_EQ(" #val1 ", " #val2 ") failed\n" \
+                      << "  Expected: " << (val2) << "\n" \
+                      << "  Actual  : " << (val1) << "\n"; \
+            if (unit::current_test_failed) *unit::current_test_failed = true; \
+            return; \
+        } \
+    } while (0)
 
 #define EXPECT_TRUE(condition) \
-do { \
-    if (!(condition)) { \
-        std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
-                  << ": EXPECT_TRUE(" #condition ") failed\n"; \
-        if (unit::current_test_failed) *unit::current_test_failed = true; \
-    } \
-} while (0)
+    do { \
+        if (!(condition)) { \
+            std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
+                      << ": EXPECT_TRUE(" #condition ") failed\n"; \
+            if (unit::current_test_failed) *unit::current_test_failed = true; \
+        } \
+    } while (0)
 
 #define ASSERT_TRUE(condition) \
-do { \
-    if (!(condition)) { \
-        std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
-                  << ": ASSERT_TRUE(" #condition ") failed\n"; \
-        if (unit::current_test_failed) *unit::current_test_failed = true; \
-        return; \
-    } \
-} while (0)
+    do { \
+        if (!(condition)) { \
+            std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
+                      << ": ASSERT_TRUE(" #condition ") failed\n"; \
+            if (unit::current_test_failed) *unit::current_test_failed = true; \
+            return; \
+        } \
+    } while (0)
 
 #define EXPECT_NE(val1, val2) \
-do { \
-    if((val1) == (val2)) { \
-        std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
-                  << ": EXPECT_NE(" #val1 ", " #val2 ") failed\n" \
-                  << "  Expected: " << (val2) << "\n" \
-                  << "  Actual  : " << (val1) << "\n"; \
-        if (unit::current_test_failed) *unit::current_test_failed = true; \
-    } \
-} while(0)
+    do { \
+        if((val1) == (val2)) { \
+            std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
+                      << ": EXPECT_NE(" #val1 ", " #val2 ") failed\n" \
+                      << "  Expected: " << (val2) << "\n" \
+                      << "  Actual  : " << (val1) << "\n"; \
+            if (unit::current_test_failed) *unit::current_test_failed = true; \
+        } \
+    } while(0)
 
 #define ASSERT_NE(val1, val2) \
-do { \
-    if((val1) == (val2)) { \
-        std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
-                  << ": ASSERT_NE(" #val1 ", " #val2 ") failed\n" \
-                  << "  Expected: " << (val2) << "\n" \
-                  << "  Actual  : " << (val1) << "\n"; \
-        if (unit::current_test_failed) *unit::current_test_failed = true; \
-        return; \
-    } \
-} while(0)
+    do { \
+        if((val1) == (val2)) { \
+            std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
+                      << ": ASSERT_NE(" #val1 ", " #val2 ") failed\n" \
+                      << "  Expected: " << (val2) << "\n" \
+                      << "  Actual  : " << (val1) << "\n"; \
+            if (unit::current_test_failed) *unit::current_test_failed = true; \
+            return; \
+        } \
+    } while(0)
 
 #define EXPECT_FALSE(condition) \
-do { \
-    if(condition) { \
-        std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
-                  << ": EXPECT_FALSE(" #condition ") failed\n"; \
-        if (unit::current_test_failed) *unit::current_test_failed = true; \
-    } \
-} while(0)
+    do { \
+        if(condition) { \
+            std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
+                      << ": EXPECT_FALSE(" #condition ") failed\n"; \
+            if (unit::current_test_failed) *unit::current_test_failed = true; \
+        } \
+    } while(0)
 
 #define ASSERT_FALSE(condition) \
-do { \
-    if(condition) { \
-        std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
-                  << ": ASSERT_FALSE(" #condition ") failed\n"; \
-        if (unit::current_test_failed) *unit::current_test_failed = true; \
-        return; \
-    } \
-} while(0)
+    do { \
+        if(condition) { \
+            std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
+                      << ": ASSERT_FALSE(" #condition ") failed\n"; \
+            if (unit::current_test_failed) *unit::current_test_failed = true; \
+            return; \
+        } \
+    } while(0)
 #endif // !MACROS_H
