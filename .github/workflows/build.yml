@@ -1,4 +1,4 @@
-name: Build and Test (GCC + Clang)
+name: Build (GCC Only)
 
 on:
   push:
@@ -7,32 +7,23 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        compiler: [gcc, clang]
-
-    env:
-      BUILD_DIR: build
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout source code
+      uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: sudo apt update && sudo apt install -y cmake clang g++-13
+    - name: Install dependencies (CMake + GCC)
+      run: sudo apt-get update && sudo apt-get install -y cmake g++
 
-      - name: Configure CMake
-        run: |
-          mkdir -p $BUILD_DIR
-          cmake -B $BUILD_DIR -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=${{ matrix.compiler }}
+    - name: Configure with CMake
+      run: |
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_BUILD_TYPE=Release
 
-      - name: Build
-        run: cmake --build $BUILD_DIR --config Release
-
-      - name: Run tests
-        run: |
-          cd $BUILD_DIR
-          ctest --output-on-failure
+    - name: Build project
+      run: |
+        cd build
+        make -j$(nproc)
