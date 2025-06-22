@@ -11,7 +11,8 @@
 
 #define TEST_F(fixture, name) \
     static void fixture##_##name##_test(fixture &fix); \
-    static void fixture##_##name##_wrapper() { \
+    static void fixture##_##name##_wrapper() \
+    { \
         fixture fix; \
         SetUp(fix); \
         fixture##_##name##_test(fix); \
@@ -22,7 +23,8 @@
 
 #define TEST_P(group, name, parameter) \
     void group##_##name##_implementation(parameter); \
-    static void group##_##name(parameter &p) { \
+    static void group##_##name(parameter &p) \
+    { \
         group##_##name##_implementation(p); \
     } \
     void group##_##name##_implementation(parameter p);
@@ -42,7 +44,8 @@
 
 // Standard macros
 #define EXPECT_EQ(val1, val2) \
-    do { \
+    do \
+    { \
         if ((val1) != (val2)) { \
             std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
                       << ": EXPECT_EQ(" #val1 ", " #val2 ") failed\n" \
@@ -53,7 +56,8 @@
     } while (0)
 
 #define ASSERT_EQ(val1, val2) \
-    do { \
+    do \
+    { \
         if ((val1) != (val2)) { \
             std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
                       << ": ASSERT_EQ(" #val1 ", " #val2 ") failed\n" \
@@ -65,7 +69,8 @@
     } while (0)
 
 #define EXPECT_TRUE(condition) \
-    do { \
+    do \
+    { \
         if (!(condition)) { \
             std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
                       << ": EXPECT_TRUE(" #condition ") failed\n"; \
@@ -74,7 +79,8 @@
     } while (0)
 
 #define ASSERT_TRUE(condition) \
-    do { \
+    do \
+    { \
         if (!(condition)) { \
             std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
                       << ": ASSERT_TRUE(" #condition ") failed\n"; \
@@ -84,7 +90,8 @@
     } while (0)
 
 #define EXPECT_NE(val1, val2) \
-    do { \
+    do \
+    { \
         if((val1) == (val2)) { \
             std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
                       << ": EXPECT_NE(" #val1 ", " #val2 ") failed\n" \
@@ -95,7 +102,8 @@
     } while(0)
 
 #define ASSERT_NE(val1, val2) \
-    do { \
+    do \
+    { \
         if((val1) == (val2)) { \
             std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
                       << ": ASSERT_NE(" #val1 ", " #val2 ") failed\n" \
@@ -107,7 +115,8 @@
     } while(0)
 
 #define EXPECT_FALSE(condition) \
-    do { \
+    do \
+    { \
         if(condition) { \
             std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
                       << ": EXPECT_FALSE(" #condition ") failed\n"; \
@@ -116,7 +125,8 @@
     } while(0)
 
 #define ASSERT_FALSE(condition) \
-    do { \
+    do \
+    { \
         if(condition) { \
             std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ \
                       << ": ASSERT_FALSE(" #condition ") failed\n"; \

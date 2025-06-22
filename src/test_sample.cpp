@@ -23,7 +23,8 @@ TEST_F(MyFixture, ExampleTest) {
 
 // Recall check
 
-TEST(MockFunctionTest, CallMultipleTimes) {
+TEST(MockFunctionTest, CallMultipleTimes)
+{
     unit::mock::MockFunction mock;
 
     int counter = 0;
@@ -40,7 +41,8 @@ TEST(MockFunctionTest, CallMultipleTimes) {
 
 // Without .body
 
-TEST(MockFunctionTest, NoBodySafeCall) {
+TEST(MockFunctionTest, NoBodySafeCall)
+{
     unit::mock::MockFunction mock;
 
     // Не задаём mock.body
@@ -52,7 +54,8 @@ TEST(MockFunctionTest, NoBodySafeCall) {
 
 // Multiple objects
 
-TEST(MockFunctionTest, MultipleMocksIndependent) {
+TEST(MockFunctionTest, MultipleMocksIndependent)
+{
     unit::mock::MockFunction a, b;
 
     a();
@@ -66,7 +69,8 @@ TEST(MockFunctionTest, MultipleMocksIndependent) {
 
 // is_called() check
 
-TEST(MockFunctionTest, IsCalledFlag) {
+TEST(MockFunctionTest, IsCalledFlag)
+{
     unit::mock::MockFunction mock;
     
     ASSERT_FALSE(mock.is_called());
@@ -79,7 +83,8 @@ TEST(MockFunctionTest, IsCalledFlag) {
 
 // Mock called, but body do nothing
 
-TEST(MockFunctionTest, EmptyBodyDoesNotAffectCount) {
+TEST(MockFunctionTest, EmptyBodyDoesNotAffectCount)
+{
     unit::mock::MockFunction mock;
     mock.body = []() {}; // doing nothing in {}
 
