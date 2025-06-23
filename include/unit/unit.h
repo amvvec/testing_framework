@@ -58,6 +58,7 @@ struct CommandLineOption
     std::string filter;
     bool list_only = false;
 };
+
 CommandLineOption parse_argument(int argc, char **argv);
 } // namespace unit
 #endif // !UNIT_H

@@ -4,7 +4,7 @@
 
 static std::vector<unit::TestCase> filter_tests(const std::vector<unit::TestCase>& all_tests,
                                                 const std::string& filter) 
-                                                {
+{
     std::vector<unit::TestCase> filtered;
 
     for (const auto& test : all_tests) 
@@ -63,7 +63,7 @@ static bool run_test_case(const unit::TestCase& test)
 
 static void print_test_list(const std::vector<unit::TestCase>& tests, 
                             const std::string& filter) 
-                            {
+{
     std::cout << "[ Listing " << tests.size() << " test(s) matching filter \"" << filter << "\": ]\n";
 
     for (const auto& test : tests) 

@@ -27,3 +27,8 @@ jobs:
       run: |
         cd build
         make -j$(nproc)
+
+    - name: Run unit tests
+      run: |
+        cd build
+        ./launch
