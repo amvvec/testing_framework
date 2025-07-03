@@ -3,62 +3,56 @@
 #define UNIT_H
 
 #include "macros.h"
+
+#include <functional>
 #include <string>
 #include <vector>
-#include <functional>
 
-namespace unit
-{
-inline thread_local bool *current_test_failed;
+namespace unit {
+inline thread_local bool* current_test_failed;
 
-struct TestCase
-{
-    std::string group;
-    std::string name;
-    std::function<void()> function_name;
+struct TestCase {
+  std::string group;
+  std::string name;
+  std::function<void()> function_name;
 };
 
-struct ParameterTestCase
-{
-    std::string group;
-    std::string name;
-    std::function<void()> function_name;
-    int parameter_list;
+struct ParameterTestCase {
+  std::string group;
+  std::string name;
+  std::function<void()> function_name;
+  int parameter_list;
 };
 
-void register_test(const std::string &group, 
-                   const std::string &name, std::function<void()> function_name);
+void register_test(const std::string& group, const std::string& name,
+                   std::function<void()> function_name);
 
-struct AutoRegister
-{
-    AutoRegister(const std::string group, 
-                 const std::string &name, std::function<void()> function_name)
-    {
-        register_test(group, name, function_name);
-    }
+struct AutoRegister {
+  AutoRegister(const std::string group, const std::string& name,
+               std::function<void()> function_name) {
+    register_test(group, name, function_name);
+  }
 };
 
-const std::vector<TestCase> &get_all_tests();
+const std::vector<TestCase>& get_all_tests();
 
-int run_all_tests(const std::string &filter = "", bool list_only = false);
+int run_all_tests(const std::string& filter = "", bool list_only = false);
 
-struct Fixture
-{
-    int value;
+struct Fixture {
+  int value;
 };
 
-template<typename T>
+template <typename T>
 inline void SetUp(T&) {}
 
-template<typename T>
+template <typename T>
 inline void TearDown(T&) {}
 
-struct CommandLineOption
-{
-    std::string filter;
-    bool list_only = false;
+struct CommandLineOption {
+  std::string filter;
+  bool list_only = false;
 };
 
-CommandLineOption parse_argument(int argc, char **argv);
+CommandLineOption parse_argument(int argc, char** argv);
 } // namespace unit
 #endif // !UNIT_H

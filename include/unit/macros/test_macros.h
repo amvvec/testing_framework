@@ -10,15 +10,16 @@
 
 #define TEST_F(fixture, name)                                                  \
   static void fixture##_##name##_test(fixture& fix);                           \
+  static void fixture##_##name##_wrapper();                                    \
+  static unit::AutoRegister auto_##fixture##_##name(                           \
+      #fixture, #name, &fixture##_##name##_wrapper);                           \
   static void fixture##_##name##_wrapper() {                                   \
     fixture fix;                                                               \
     SetUp(fix);                                                                \
     fixture##_##name##_test(fix);                                              \
     TearDown(fix);                                                             \
   }                                                                            \
-  static unit::AutoRegister auto_##fixture##_##name(                           \
-      #fixture, #name, &fixture##_##name##_wrapper);                           \
-  static void fixture##_##name##_test(fixture& fix);
+  static void fixture##_##name##_test(fixture& fix)
 
 #define TEST_P(group, name, parameter)                                         \
   void group##_##name##_implementation(parameter);                             \
