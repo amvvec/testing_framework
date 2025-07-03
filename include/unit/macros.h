@@ -2,9 +2,9 @@
 #ifndef MACROS_H
 #define MACROS_H
 
-#include "assert.h"
-#include "expect.h"
-#include "mock_macros.h"
-#include "test_macros.h"
+#include "macros/assert.h"
+#include "macros/expect.h"
+#include "macros/mock_macros.h"
+#include "macros/test_macros.h"
 
 #endif // !MACROS_H
