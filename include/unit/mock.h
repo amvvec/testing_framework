@@ -4,27 +4,27 @@
 
 namespace unit {
 namespace mock {
-  struct MockCall {
-    std::string function_name;
-    std::vector<std::string> args;
-  };
+    struct MockCall {
+        std::string function;
+        std::vector<std::string> args;
+    };
 
-  struct MockFunction {
-  private:
-    int call_count = 0;
+    struct MockFunction {
+    private:
+        int call_count = 0;
 
-  public:
-    std::function<void()> body;
+    public:
+        std::function<void()> body;
 
-    int call() const { return call_count; }
+        int call() const { return call_count; }
 
-    bool is_called() const { return call_count > 0; }
+        bool is_called() const { return call_count > 0; }
 
-    void operator()() {
-      ++call_count;
-      if(body)
-        body();
-    }
-  };
+        void operator()() {
+            ++call_count;
+            if(body)
+                body();
+        }
+    };
 } // namespace mock
 } // namespace unit

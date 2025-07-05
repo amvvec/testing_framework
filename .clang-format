@@ -1,22 +1,31 @@
 ColumnLimit: 80
 UseTab: Never
-IndentWidth: 2
-TabWidth: 2
+IndentWidth: 4
+TabWidth: 4
+
 BreakBeforeBraces: Attach
 AlwaysBreakAfterReturnType: None
 AlwaysBreakAfterDefinitionReturnType: None
-AllowShortBlocksOnASingleLine: Never
+
+AllowShortBlocksOnASingleLine: Empty
 AlwaysBreakTemplateDeclarations: Yes
-BinPackArguments: true
+
 BinPackParameters: true
+BinPackArguments: true
+
 AlignAfterOpenBracket: Align
 PointerAlignment: Left
-DerivePointerAlignment: false
+
 SpacesInAngles: false
 SpaceBeforeParens: Never
-FixNamespaceComments: true
+
 NamespaceIndentation: Inner
+FixNamespaceComments: true
+
 ReflowComments: true
 MaxEmptyLinesToKeep: 1
+
 SortIncludes: CaseSensitive
 IncludeBlocks: Regroup
+
+AccessModifierOffset: -4
