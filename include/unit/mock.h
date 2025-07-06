@@ -4,6 +4,7 @@
 
 namespace unit {
 namespace mock {
+
     struct MockCall {
         std::string function;
         std::vector<std::string> args;
@@ -26,5 +27,6 @@ namespace mock {
                 body();
         }
     };
+
 } // namespace mock
 } // namespace unit

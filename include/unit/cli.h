@@ -1,5 +1,3 @@
-
-
 #pragma once
 #ifndef CLI_H
 #define CLI_H
@@ -10,10 +8,13 @@ namespace unit {
 
 struct CommandLineOption {
     std::string filter;
-    bool list_only = false;
+    bool is_help = false;
+    bool is_list = false;
 };
 
 CommandLineOption parse_argument(int argc, char** argv);
+
+void show_help();
 
 } // namespace unit
 

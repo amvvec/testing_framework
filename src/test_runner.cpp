@@ -76,11 +76,11 @@ static void print_summary(size_t total, int passed, int failed,
 }
 
 namespace unit {
-int run_all_tests(const std::string& filter, bool list_only) {
+int run_all_tests(const std::string& filter, bool is_list_only) {
     const auto& all_tests = unit::get_all_test();
     auto tests = filter_tests(all_tests, filter);
 
-    if(list_only) {
+    if(is_list_only) {
         print_test_list(tests, filter);
         return 0;
     }

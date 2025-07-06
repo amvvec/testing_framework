@@ -6,7 +6,7 @@
 
 namespace unit {
 
-int run_all_tests(const std::string& filter = "", bool list_only = false);
+int run_all_tests(const std::string& filter = "", bool is_list_only = false);
 
 } // namespace unit
 
