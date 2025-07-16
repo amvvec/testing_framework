@@ -1,27 +1,31 @@
-#include <unit/mock.h>
-#include <unit/unit.h>
+#include "unit.h"
 
-using namespace unit::mock;
+TEST(Test, Test) {
+    ASSERT_TRUE(1 == 1);
+}
 
 struct MyFixture {
     int value;
 };
 
-void SetUp(MyFixture& fix) { fix.value = 42; }
-
-void TearDown(MyFixture&) {
-    // ...
+void SetUp(MyFixture& fix) {
+    fix.value = 42;
 }
 
-TEST_F(MyFixture, ExampleTest) { EXPECT_EQ(fix.value, 42); }
+void TearDown(MyFixture&) {
+}
 
-// Recall check
+TEST_F(MyFixture, ExampleTest) {
+    EXPECT_EQ(fix.value, 42);
+}
 
 TEST(MockFunctionTest, CallMultipleTimes) {
-    unit::mock::MockFunction mock;
+    unit::MockFunction mock;
 
     int counter = 0;
-    mock.body = [&]() { counter++; };
+    mock.set_body([&]() {
+        counter++;
+    });
 
     mock();
     mock();
@@ -34,7 +38,7 @@ TEST(MockFunctionTest, CallMultipleTimes) {
 // Without .body
 
 TEST(MockFunctionTest, NoBodySafeCall) {
-    unit::mock::MockFunction mock;
+    unit::MockFunction mock;
 
     // Не задаём mock.body
     mock();
@@ -45,7 +49,7 @@ TEST(MockFunctionTest, NoBodySafeCall) {
 // Multiple objects
 
 TEST(MockFunctionTest, MultipleMocksIndependent) {
-    unit::mock::MockFunction a, b;
+    unit::MockFunction a, b;
 
     a();
     b();
@@ -58,7 +62,7 @@ TEST(MockFunctionTest, MultipleMocksIndependent) {
 // is_called() check
 
 TEST(MockFunctionTest, IsCalledFlag) {
-    unit::mock::MockFunction mock;
+    unit::MockFunction mock;
 
     ASSERT_FALSE(mock.is_called());
 
@@ -70,8 +74,9 @@ TEST(MockFunctionTest, IsCalledFlag) {
 // Mock called, but body do nothing
 
 TEST(MockFunctionTest, EmptyBodyDoesNotAffectCount) {
-    unit::mock::MockFunction mock;
-    mock.body = []() {}; // doing nothing in {}
+    unit::MockFunction mock;
+    mock.set_body([]() {
+    });
 
     mock();
     mock();
@@ -80,11 +85,11 @@ TEST(MockFunctionTest, EmptyBodyDoesNotAffectCount) {
 }
 
 TEST(FrameworkRegistry, RegisterTest) {
-    auto& all = unit::get_all_test();
+    auto& all = unit::get_all_tests();
     bool found = false;
 
     for(const auto& a : all) {
-        if(a.group == "FrameworkRegistry" || a.name == "RegisterTest") {
+        if(a.group() == "FrameworkRegistry" || a.name() == "RegisterTest") {
             found = true;
             break;
         }

@@ -3,7 +3,7 @@
 #define TEST_MACROS_H
 
 #include "fixture.h"
-#include "test_case.h"
+#include "registry.h"
 
 #define TEST(group, name)                                                      \
     static void test_##group##_##name();                                       \
