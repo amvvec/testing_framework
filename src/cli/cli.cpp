@@ -1,3 +1,3 @@
 #include "cli.h"
 
-namespace unit {} // namespace unit
+namespace unit::cli {} // namespace unit::cli
