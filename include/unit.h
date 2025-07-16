@@ -2,7 +2,7 @@
 #ifndef UNIT_H
 #define UNIT_H
 
-#include "cli.h"
+#include "cli/cli.h"
 #include "fixture.h"
 #include "macros.h"
 #include "mock/mock.h"
