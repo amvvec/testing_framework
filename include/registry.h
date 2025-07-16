@@ -20,11 +20,13 @@ public:
 
     const std::string group() const;
     const std::string name() const;
+    const std::function<void()>& fun() const;
     void run() const;
 };
 
 class AutoTestRegister {
-    AutoTestRegister(const std::string group, const std::string& name,
+public:
+    AutoTestRegister(const std::string& group, const std::string& name,
                      std::function<void()> fn);
 };
 

@@ -3,40 +3,28 @@ project(test_framework VERSION 1.0 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-add_compile_options(-Wall -Wextra -Werror -pedantic -g)
-
-################################################################################
-
-# Include header directory
-include_directories(include)
 
 # Find all sources
-file(GLOB SRC_FILE src/*.cpp)
-file(GLOB TEST_FILES tests/*.cpp)
+file(GLOB_RECURSE SRC_FILE src/*.cpp)
+file(GLOB_RECURSE TEST_FILES tests/*.cpp)
 
 # Create executable file
 add_executable(launch ${SRC_FILE} ${TEST_FILES})
 
-################################################################################
+# Include header directory
+target_include_directories(launch PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-# Create lib
-# file(GLOB UNIT_SRC ${SRC_FILE}) # WARNING: edit this shit
-# add_library(unit STATIC ${UNIT_SRC})
+# add_compile_options(-Wall -Wextra -Werror -pedantic -g)
 
-# target_include_directories(unit PUBLIC
-#     ${CMAKE_CURRENT_SOURCE_DIR}/include
-# )
-
-# # Preventing re-addition
-# if(NOT TARGET unit)
-#     add_library(unit STATIC ${UNIT_SRC})
+# if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+#     message(STATUS "Build in Debug mode")
+#     add_compile_options(-Wall -Wextra -Werror -pedantic -g)
+# elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+#     message(STATUS "Build in Release mode")
+#     add_compile_options(-O2)
 # endif()
 
-# ################################################################################
-# add_subdirectory(. test_framework_build)
-
-# file(GLOB TEST_FILES tests/*.cpp)
-
-# add_executable(launch ${TEST_FILES})
-
-# target_link_libraries(launch PRIVATE unit)
+target_compile_options(launch PRIVATE
+    $<$<CONFIG:Debug>:-Wall -Wextra -Werror -pedantic -g>
+    $<$<CONFIG:Release>:-O2>
+)

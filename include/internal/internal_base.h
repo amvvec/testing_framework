@@ -2,14 +2,15 @@
 #ifndef INTERNAL_BASE_H
 #define INTERNAL_BASE_H
 
+#include "state.h"
+
 #include <iostream>
 
 #define FAIL(message)                                                          \
     do {                                                                       \
         std::cerr << "[ FAIL ] " << __FILE__ << ":" << __LINE__ << ": "        \
                   << message << std::endl;                                     \
-        if(unit::current_test_fail)                                            \
-            *unit::current_test_fail = true;                                   \
+        unit::set_fail();                                                      \
     } while(0)
 
 #define CHECK(condition, message, should_return)                               \
@@ -28,12 +29,10 @@
                       << label "(" #a "," #b ") failed\n"                      \
                       << " Expected:" << (b) << "\n"                           \
                       << "  Actual  : " << (a) << "\n";                        \
-            if(unit::current_test_fail) {                                      \
-                *unit::current_test_fail = true;                               \
-            }                                                                  \
-            if(should_return) {                                                \
-                return;                                                        \
-            }                                                                  \
+            unit::set_fail();                                                  \
+        }                                                                      \
+        if(should_return) {                                                    \
+            return;                                                            \
         }                                                                      \
     } while(0)
 
