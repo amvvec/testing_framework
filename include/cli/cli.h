@@ -2,23 +2,35 @@
 #ifndef CLI_H
 #define CLI_H
 
-#include <memory>
+#include <iostream>
 #include <string>
-#include <vector>
 
 namespace unit::cli {
 
-class Command {
-public:
-    virtual ~Command() = default;
-    virtual std::string name() const = 0;
-    virtual std::string description() const = 0;
-    virtual int execute(int argc, char** argv) = 0;
+struct CommandOption {
+    bool is_help = false;
 };
 
-std::vector<std::unique_ptr<Command>> get_all_commands();
-Command* find_command(const std::string& name);
+int parse_argument(int argc, char** argv);
+
+int handle_cli(const CommandOption& option);
 
 } // namespace unit::cli
+
+void print_help() {
+    std::cout <<
+
+        R"(
+    Minimalistic C++ testing framework
+
+    Usage:
+        program [option]
+
+    Options:
+        --help, -h      Display this help message
+    )"
+
+              << std::endl;
+}
 
 #endif // !CLI_H

@@ -2,6 +2,6 @@
 
 #include <iostream>
 
-int main() {
-    return unit::run_all_tests();
+int main(int argc, char** argv) {
+    return unit::cli::handle_cli(argc, argv);
 }
