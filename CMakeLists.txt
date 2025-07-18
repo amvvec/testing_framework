@@ -3,18 +3,25 @@ project(test_framework VERSION 1.0 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Find all sources
-file(GLOB_RECURSE SRC_FILE src/*.cpp)
-file(GLOB_RECURSE TEST_FILES tests/*.cpp)
+add_subdirectory(include)
+add_subdirectory(src)
+add_subdirectory(tests)
 
-# Create executable file
-add_executable(launch ${SRC_FILE} ${TEST_FILES})
+enable_testing()
 
-# Include header directory
-target_include_directories(launch PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+# # Find all sources
+# file(GLOB_RECURSE SRC_FILE src/*.cpp)
+# file(GLOB_RECURSE TEST_FILES tests/*.cpp)
 
-# add_compile_options(-Wall -Wextra -Werror -pedantic -g)
+# # Create executable file
+# add_executable(launch ${SRC_FILE} ${TEST_FILES})
+
+# # Include header directory
+# target_include_directories(launch PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+# # add_compile_options(-Wall -Wextra -Werror -pedantic -g)
 
 # if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 #     message(STATUS "Build in Debug mode")
@@ -24,7 +31,7 @@ target_include_directories(launch PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 #     add_compile_options(-O2)
 # endif()
 
-target_compile_options(launch PRIVATE
-    $<$<CONFIG:Debug>:-Wall -Wextra -Werror -pedantic -g>
-    $<$<CONFIG:Release>:-O2>
-)
+# target_compile_options(launch PRIVATE
+#     $<$<CONFIG:Debug>:-Wall -Wextra -Werror -pedantic -g>
+#     $<$<CONFIG:Release>:-O2>
+# )
