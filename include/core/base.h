@@ -1,6 +1,4 @@
 #pragma once
-#ifndef INTERNAL_BASE_H
-#define INTERNAL_BASE_H
 
 #include "state.h"
 
@@ -35,5 +33,3 @@
             return;                                                            \
         }                                                                      \
     } while(0)
-
-#endif // !INTERNAL_BASE_H

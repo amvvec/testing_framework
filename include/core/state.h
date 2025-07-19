@@ -1,6 +1,4 @@
 #pragma once
-#ifndef TEST_STATE_H
-#define TEST_STATE_H
 
 namespace unit {
 
@@ -13,5 +11,3 @@ inline void set_fail() {
 }
 
 } // namespace unit
-
-#endif // !TEST_STATE_H
