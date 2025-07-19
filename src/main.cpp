@@ -1,7 +1,7 @@
-#include "unit.h"
+#include "cli/parser.h"
 
 #include <iostream>
 
-int main() {
-    return unit::run_all_tests();
+int main(int argc, char** argv) {
+    return testing::cli::parse_argument(argc, argv);
 }
