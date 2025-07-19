@@ -1,7 +1,7 @@
 #pragma once
 
 #include "fixture.h"
-#include "test_registry.h"
+#include "registry.h"
 
 #define TEST(group, name)                                                      \
     static void test_##group##_##name();                                       \
