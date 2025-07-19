@@ -1,14 +1,13 @@
-#include "registry.h"
+#include "core/registry.h"
 
 #include <iostream>
 #include <string>
 #include <unordered_set>
 #include <vector>
 
-namespace unit {
+namespace testing {
 
 static std::vector<TestCase> test_registry;
-
 static std::unordered_set<std::string> registred_name;
 
 TestCase::TestCase(const std::string& group, const std::string& name,
@@ -62,4 +61,4 @@ void TestCase::run() const {
     fn_();
 }
 
-} // namespace unit
+} // namespace testing

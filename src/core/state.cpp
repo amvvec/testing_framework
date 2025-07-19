@@ -1,7 +1,7 @@
-#include "internal/state.h"
+#include "core/state.h"
 
-namespace unit {
+namespace testing {
 
-thread_local bool* test_fail = nullptr;
+thread_local bool test_failed = false;
 
 }

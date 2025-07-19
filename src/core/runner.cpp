@@ -1,15 +1,15 @@
-#include "internal/state.h"
-#include "registry.h"
+#include "core/registry.h"
+#include "core/state.h"
 
 #include <chrono>
 #include <iostream>
 
 namespace {
 
-std::vector<unit::TestCase>
-filter_tests(const std::vector<unit::TestCase>& all_tests,
+std::vector<testing::TestCase>
+filter_tests(const std::vector<testing::TestCase>& all_tests,
              const std::string& filter) {
-    std::vector<unit::TestCase> filtered;
+    std::vector<testing::TestCase> filtered;
 
     for(const auto& test : all_tests) {
         const std::string& full_name = test.group() + "." + test.name();
@@ -20,7 +20,7 @@ filter_tests(const std::vector<unit::TestCase>& all_tests,
     return filtered;
 }
 
-bool run_test_case(const unit::TestCase& test) {
+bool run_test_case(const testing::TestCase& test) {
     using clock = std::chrono::steady_clock;
 
     std::cout << std::endl
@@ -30,7 +30,7 @@ bool run_test_case(const unit::TestCase& test) {
     auto start = clock::now();
     bool test_failed = false;
 
-    unit::test_fail = &test_failed;
+    testing::test_failed = &test_failed;
 
     try {
         test.run();
@@ -56,7 +56,7 @@ bool run_test_case(const unit::TestCase& test) {
     return !test_failed;
 }
 
-void print_test_list(const std::vector<unit::TestCase>& tests,
+void print_test_list(const std::vector<testing::TestCase>& tests,
                      const std::string& filter) {
     std::cout << "[ Listing " << tests.size() << " test(s) matching filter \""
               << filter << "\": ]\n";
@@ -77,7 +77,7 @@ void print_test_summary(size_t total, int passed, int failed,
 
 } // anonymous namespace
 
-namespace unit {
+namespace testing {
 
 int run_all_tests(const std::string& filter, bool is_list_only) {
     const auto& all_tests = get_all_tests();
@@ -113,4 +113,4 @@ int run_all_tests(const std::string& filter, bool is_list_only) {
     return failed == 0 ? 0 : 1;
 }
 
-} // namespace unit
+} // namespace testing

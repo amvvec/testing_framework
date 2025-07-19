@@ -1,12 +1,10 @@
 #pragma once
-#ifndef TEST_CASE_H
-#define TEST_CASE_H
 
 #include <functional>
 #include <string>
 #include <vector>
 
-namespace unit {
+namespace testing {
 
 class TestCase {
 private:
@@ -31,8 +29,7 @@ public:
 };
 
 void register_test(const TestCase& tc);
+
 const std::vector<TestCase>& get_all_tests();
 
-} // namespace unit
-
-#endif // !TEST_CASE_H
+} // namespace testing

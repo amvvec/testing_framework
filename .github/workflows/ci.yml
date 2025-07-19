@@ -1,0 +1,76 @@
+name: Build (GCC Only)
+
+on:
+  push:
+    branches: [ main, feature, refactor ]
+  pull_request:
+    branches: [ main, feature, refactor ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        compiler: [g++, clang++]
+        build_type: [Debug, Release]
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake ${{ matrix.compiler }}
+
+    - name: Configure with CMake
+      run: |
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+                 -DCMAKE_CXX_COMPILER=${{ matrix.compiler }}
+
+    - name: Build project
+      run: |
+        cd build
+        make --build . -j$(nproc)
+
+    - name: Run unit tests
+      run: |
+        cd build
+        ctest --output-on-failure
+
+# name: Build (GCC Only)
+
+# on:
+#   push:
+#     branches: [ main ]
+#   pull_request:
+#     branches: [ main ]
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#     - name: Checkout source code
+#       uses: actions/checkout@v3
+
+#     - name: Install dependencies (CMake + GCC)
+#       run: sudo apt-get update && sudo apt-get install -y cmake g++
+
+#     - name: Configure with CMake
+#       run: |
+#         mkdir build
+#         cd build
+#         cmake .. -DCMAKE_BUILD_TYPE=Release
+
+#     - name: Build project
+#       run: |
+#         cd build
+#         make -j$(nproc)
+
+#     - name: Run unit tests
+#       run: |
+#         cd build
+#         ./launch
