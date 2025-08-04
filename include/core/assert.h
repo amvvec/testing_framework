@@ -1,13 +1,35 @@
 #pragma once
 
-#include "base.h"
+#include "macros_base.h"
+
+namespace testing {
 
 #define ASSERT_TRUE(condition)                                                 \
-    CHECK((condition), "ASSERT_TRUE (" #condition ")", true)
+    do {                                                                       \
+        if(!(condition)) {                                                     \
+            testing::get_output().check((condition), __FILE__, __LINE__,       \
+                                        "ASSERT_TRUE(" #condition ")");        \
+        }                                                                      \
+    } while(0)
 
 #define ASSERT_FALSE(condition)                                                \
-    CHECK(!(condition), "ASSERT_TRUE (" #condition ")", true)
+    do {                                                                       \
+        if((condition)) {                                                      \
+            testing::get_output().check((condition), __FILE__, __LINE__,       \
+                                        "ASSERT_TRUE(" #condition ")");        \
+        }                                                                      \
+    } while(0)
 
-#define ASSERT_EQ(a, b) COMPARE((a), (b), ==, "ASSERT_EQ", true)
+#define ASSERT_EQ(a, b)                                                        \
+    do {                                                                       \
+        testing::get_output().compare((a), (b), std::equal_to<>(), __FILE__,   \
+                                      __LINE__, "ASSERT_EQ");                  \
+    } while(0)
 
-#define ASSERT_NE(a, b) COMPARE((a), (b), !=, "ASSERT_NE", true)
+#define ASSERT_NE(a, b)                                                        \
+    do {                                                                       \
+        testing::get_output().compare((a), (b), std::not_equal_to<>(),         \
+                                      __FILE__, __LINE__, "ASSERT_NE");        \
+    } while(0)
+
+} // namespace testing

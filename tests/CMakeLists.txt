@@ -1,0 +1,16 @@
+file(GLOB_RECURSE TEST_FILES CONFIGURE_DEPENDS *.cpp)
+
+add_executable(launch ${TEST_FILES})
+
+target_link_libraries(launch PRIVATE test_framework)
+
+target_compile_options(test_framework PRIVATE
+    $<$<CONFIG:Debug>:-Wall -Wextra -Werror -pedantic -g>
+    $<$<CONFIG:Release>:-O2>
+)
+
+set_target_properties(launch PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+)
+
+add_test(NAME launch_tests COMMAND launch)

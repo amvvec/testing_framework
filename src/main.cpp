@@ -1,7 +1,4 @@
-#include "cli/cli.h"
-
-#include <iostream>
+#include "test_framework.h"
 
 int main(int argc, char** argv) {
-    return unit::cli::parse_argument(argc, argv);
 }

@@ -1,6 +1,11 @@
-/build
-/.vscode
-/test_framework
-text.md
-tmp.cpp
+# .gitignore
+
+build/
+*.o
+*.a
+*.so
+*.exe
+*.bak
+*.swp
+.vscode/
 docs/

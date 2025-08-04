@@ -1,0 +1,34 @@
+#pragma once
+
+#include "registry.h"
+#include "test_state.h"
+
+#include <memory>
+
+namespace testing {
+
+struct TestResult {
+    std::string group;
+    std::string name;
+    bool passed;
+    std::string error_message;
+    long long duration_ms; // Test duration in milliseconds
+};
+
+class TestRunner {
+private:
+    std::function<void(std::string)> output_;
+    std::unique_ptr<TestState> state_;
+    std::vector<TestResult> results_;
+    int failure_count_;
+
+    TestResult run_test(const TestCase& test);
+
+public:
+    // Initialize with TestState
+    TestRunner();
+
+    int run_all_tests();
+};
+
+} // namespace testing
