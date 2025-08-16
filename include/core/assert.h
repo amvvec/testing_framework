@@ -1,22 +1,30 @@
 #pragma once
 
 #include "macros_base.h"
+#include "test_output.h"
 
 namespace testing {
 
 #define ASSERT_TRUE(condition)                                                 \
+    if(!(condition)) {                                                         \
+        testing::get_output().check_condition((condition));                    \
+    }
+
+#define ASSERT_TRUE(condition)                                                 \
     do {                                                                       \
         if(!(condition)) {                                                     \
-            testing::get_output().check((condition), __FILE__, __LINE__,       \
-                                        "ASSERT_TRUE(" #condition ")");        \
+            testing::get_output().check_condition(                             \
+                (condition), __FILE__, __LINE__,                               \
+                "ASSERT_TRUE(" #condition ")");                                \
         }                                                                      \
     } while(0)
 
 #define ASSERT_FALSE(condition)                                                \
     do {                                                                       \
         if((condition)) {                                                      \
-            testing::get_output().check((condition), __FILE__, __LINE__,       \
-                                        "ASSERT_TRUE(" #condition ")");        \
+            testing::get_output().check_condition(                             \
+                (condition), __FILE__, __LINE__,                               \
+                "ASSERT_FALSE(" #condition ")");                               \
         }                                                                      \
     } while(0)
 

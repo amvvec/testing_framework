@@ -4,7 +4,9 @@ echo "[ PRE-COMMIT ] Running clang-format..."
 
 #Get list of staged.h and.cpp files
     FILES = $(git diff-- cached-- name - only-- diff - filter =
-                  ACM | grep - E '\.(cpp|h)$') if[-z "$FILES"]; then
+                  ACM | grep - E '\.(cpp|h)$')
+
+        if[-z "$FILES"]; then
     echo "[ PRE-COMMIT ] No .h or .cpp files to format."
     exit 0
 fi

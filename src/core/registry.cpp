@@ -4,7 +4,7 @@ namespace testing {
 
 TestCase::TestCase(const std::string& group, const std::string& name,
                    std::function<void()> fn)
-    : group_(group), name_(name), fn_(fn) {
+    : group_(group), name_(name), fn_(std::move(fn)) {
 }
 
 const std::string& TestCase::group() const {
