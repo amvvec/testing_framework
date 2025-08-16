@@ -7,14 +7,40 @@ private:
     bool failed_;
 
 public:
-    TestState();
-    void set_failed();
-    bool is_failed() const;
+    TestState() = default;
+
+    void set_failed() {
+        failed_ = true;
+    }
+
+    void reset_failed() {
+        failed_ = false;
+    }
+
+    bool is_failed() const {
+        return failed_;
+    }
 };
 
-// Global test context for macro usage. Initialized by test runner
-extern TestState* current_test_state;
+inline TestState*& get_current_test_state() {
+    thread_local TestState* ptr = nullptr;
+    return ptr;
+}
 
-inline void set_fail();
+inline void fail_current_test() {
+    if(auto* state = get_current_test_state()) {
+        state->set_failed();
+    }
+}
+
+class TestStateGuard {
+public:
+    TestStateGuard(TestState* state) {
+        get_current_test_state() = state;
+    }
+    ~TestStateGuard() {
+        get_current_test_state() = nullptr;
+    }
+};
 
 } // namespace testing
