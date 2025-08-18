@@ -2,8 +2,7 @@
 
 namespace testing {
 
-TestCase::TestCase(const std::string& group, const std::string& name,
-                   std::function<void()> fn)
+TestCase::TestCase(const std::string& group, const std::string& name, std::function<void()> fn)
     : group_(group), name_(name), fn_(std::move(fn)) {
 }
 
@@ -17,9 +16,7 @@ const std::function<void()>& TestCase::fn() const {
     return fn_;
 }
 
-AutoTestRegister::AutoTestRegister(const std::string& group,
-                                   const std::string& name,
-                                   std::function<void()> fn)
+AutoTestRegister::AutoTestRegister(const std::string& group, const std::string& name, std::function<void()> fn)
     : tc_(group, name, fn) {
     TestRegistry::register_test(tc_);
 }

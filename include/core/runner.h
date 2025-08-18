@@ -24,8 +24,7 @@ private:
     int failure_count_;
 
     TestResult run_test(const TestCase& test);
-    void print_summary(size_t total, size_t passed, size_t failed,
-                       long long duration_ms) const;
+    void print_summary(size_t total, size_t passed, size_t failed, long long duration_ms) const;
 
 public:
     // Initialize with TestState
