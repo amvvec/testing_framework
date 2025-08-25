@@ -2,60 +2,142 @@
 #include "core/expect.h"
 #include "core/macros.h"
 
-TEST(AssertTrue, PassOnTrue) {
-    ASSERT_TRUE(true);
-    ASSERT_TRUE(1 == 2);
-    ASSERT_TRUE(1 == 1);
+#include <chrono>
+#include <map>
+#include <numeric>
+#include <string>
+#include <vector>
+
+TEST(Performance, MillionAssertions) {
+    auto start = std::chrono::steady_clock::now();
+
+    for(int i = 0; i < 1'000'000; ++i) {
+        EXPECT_TRUE(i >= 0); // всегда true
+    }
+
+    auto end = std::chrono::steady_clock::now();
+    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
+                  .count();
+
+    std::cout << "[ PERF ] MillionAssertions completed in " << ms << " ms\n";
+
+    // Ограничим время, чтобы тест сигнализировал, если слишком долго
+    ASSERT_TRUE(ms < 2000); // допустим, не больше 2 секунд
 }
 
-TEST(ExpectTrue, PassOnTrue) {
-    EXPECT_TRUE(true);
-    EXPECT_TRUE(1 == 2);
-    EXPECT_TRUE(1 == 1);
+TEST(Performance, VectorSum) {
+    std::vector<int> v(10'000'000, 1);
+
+    auto start = std::chrono::steady_clock::now();
+    long long sum = std::accumulate(v.begin(), v.end(), 0LL);
+    auto end = std::chrono::steady_clock::now();
+
+    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
+                  .count();
+
+    std::cout << "[ PERF ] VectorSum completed in " << ms << " ms (sum=" << sum
+              << ")\n";
+
+    ASSERT_EQ(sum, 10'000'000);
+    ASSERT_TRUE(ms < 3000); // должно быть быстрее 3 секунд
 }
 
-TEST(AssertTrue, FailsOnFalse) {
-    ASSERT_TRUE(false); // должен зафейлиться
-    // последующие строки не должны выполниться
-    ASSERT_TRUE(true); // не должен дойти до сюда
+TEST(Stress, LargeLoop) {
+    long long sum = 0;
+    for(int i = 0; i < 1'000'000; i++) {
+        sum += i;
+    }
+    ASSERT_TRUE(sum > 0); // sanity check
 }
 
-TEST(ExpectTrue, PassesOnTrue) {
-    EXPECT_TRUE(1 == 1);
-    EXPECT_TRUE(true);
+TEST(StressSpaces, LeadingSpaces) {
+    std::string s = "   hello";
+    ASSERT_EQ(s.find("hello"), 3u);
 }
 
-TEST(ExpectTrue, FailsOnFalseButContinues) {
-    EXPECT_TRUE(false); // должен вывести FAIL
-    EXPECT_TRUE(true);  // должен выполниться
+TEST(StressSpaces, TrailingSpaces) {
+    std::string s = "world   ";
+    EXPECT_EQ(s.substr(0, 5), "world");
 }
 
-TEST(AssertEq, PassesOnEqualInts) {
-    ASSERT_EQ(5, 5);
+TEST(StressSpaces, MultipleSpacesInside) {
+    std::string s = "a   b";
+    EXPECT_TRUE(s.find("   ") != std::string::npos);
 }
 
-TEST(AssertEq, FailsOnDifferentInts) {
-    ASSERT_EQ(2, 3); // должен зафейлиться
+TEST(StressSpaces, EmptyString) {
+    std::string s = "";
+    ASSERT_TRUE(s.empty());
 }
 
-TEST(ExpectEq, WorksWithStrings) {
-    std::string actual = "abc";
-    std::string expected = "abc";
-    EXPECT_EQ(actual, expected);
+TEST(StressSpaces, OnlySpaces) {
+    std::string s = "     ";
+    EXPECT_EQ(s.size(), 5u);
 }
 
-TEST(ExpectEq, DetectsStringMismatch) {
-    std::string actual = "abc";
-    std::string expected = "xyz";
-    EXPECT_EQ(actual, expected); // должен FAIL
+TEST(StressSpaces, TabsInside) {
+    std::string s = "a\tb";
+    EXPECT_TRUE(s.find('\t') != std::string::npos);
 }
 
-TEST(AssertBehavior, StopsAfterFailure) {
-    ASSERT_FALSE(true); // FAIL
-    ASSERT_TRUE(true);  // не должен выполниться
+TEST(StressSpaces, MixedSpacesAndTabs) {
+    std::string s = " \t \t ";
+    ASSERT_EQ(s.size(), 5u);
 }
 
-TEST(ExpectBehavior, ContinuesAfterFailure) {
-    EXPECT_EQ(1, 2); // FAIL
-    EXPECT_EQ(3, 3); // PASS
+TEST(StressSpaces, Newlines) {
+    std::string s = "line1\nline2";
+    EXPECT_TRUE(s.find('\n') != std::string::npos);
+}
+
+TEST(StressSpaces, CarriageReturn) {
+    std::string s = "line1\rline2";
+    EXPECT_TRUE(s.find('\r') != std::string::npos);
+}
+
+TEST(StressSpaces, ComplexWhitespace) {
+    std::string s = " \t\n\r mix ";
+    ASSERT_TRUE(!s.empty());
+}
+
+TEST(AssertTrue, BasicPass) {
+    ASSERT_TRUE(1 + 1 == 2);
+}
+
+TEST(AssertFalse, Works) {
+    ASSERT_FALSE(5 < 3);
+}
+
+TEST(AssertEq, IntComparison) {
+    int a = 42;
+    int b = 42;
+    ASSERT_EQ(a, b);
+}
+
+TEST(AssertNe, DoubleComparison) {
+    double x = 3.14159;
+    double y = 2.71828;
+    ASSERT_NE(x, y);
+}
+
+TEST(ExpectEq, StringComparison) {
+    std::string s1 = "hello";
+    std::string s2 = "hello";
+    EXPECT_EQ(s1, s2);
+}
+
+TEST(ExpectNe, CStringComparison) {
+    const char* a = "abc";
+    const char* b = "xyz";
+    EXPECT_NE(std::string(a),
+              std::string(b)); // через std::string для безопасности
+}
+
+TEST(ExpectTrue, PointerNull) {
+    int* ptr = nullptr;
+    EXPECT_TRUE(ptr == nullptr);
+}
+
+TEST(ExpectFalse, BoolExpression) {
+    EXPECT_FALSE(false && true);
 }

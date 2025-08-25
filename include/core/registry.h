@@ -13,7 +13,8 @@ private:
     std::function<void()> fn_;
 
 public:
-    TestCase(const std::string& group, const std::string& name, std::function<void()> fn);
+    TestCase(const std::string& group, const std::string& name,
+             std::function<void()> fn);
 
     const std::string& group() const;
     const std::string& name() const;
@@ -25,7 +26,8 @@ private:
     TestCase tc_; // Embedded test case instance
 
 public:
-    AutoTestRegister(const std::string& group, const std::string& name, std::function<void()> fn);
+    AutoTestRegister(const std::string& group, const std::string& name,
+                     std::function<void()> fn);
 };
 
 class TestRegistry {

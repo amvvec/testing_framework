@@ -9,3 +9,7 @@ build/
 *.swp
 .vscode/
 docs/
+
+utils/
+
+tmp.txt
