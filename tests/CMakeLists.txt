@@ -5,7 +5,7 @@ add_executable(launch ${TEST_FILES})
 target_link_libraries(launch PRIVATE test_framework)
 
 target_compile_options(test_framework PRIVATE
-    $<$<CONFIG:Debug>:-Wall -Wextra -Werror -pedantic -g>
+    $<$<CONFIG:Debug>:-Wall -Wextra -Werror -pedantic -g -fsanitize=address>
     $<$<CONFIG:Release>:-O2>
 )
 
