@@ -21,8 +21,7 @@ TEST(Performance, MillionAssertions) {
 
     std::cout << "[ PERF ] MillionAssertions completed in " << ms << " ms\n";
 
-    // Ограничим время, чтобы тест сигнализировал, если слишком долго
-    ASSERT_TRUE(ms < 2000); // допустим, не больше 2 секунд
+    ASSERT_TRUE(ms < 2000);
 }
 
 TEST(Performance, VectorSum) {
@@ -39,7 +38,7 @@ TEST(Performance, VectorSum) {
               << ")\n";
 
     ASSERT_EQ(sum, 10'000'000);
-    ASSERT_TRUE(ms < 3000); // должно быть быстрее 3 секунд
+    ASSERT_TRUE(ms < 3000);
 }
 
 TEST(Stress, LargeLoop) {
@@ -130,7 +129,7 @@ TEST(ExpectNe, CStringComparison) {
     const char* a = "abc";
     const char* b = "xyz";
     EXPECT_NE(std::string(a),
-              std::string(b)); // через std::string для безопасности
+              std::string(b)); // string for safety
 }
 
 TEST(ExpectTrue, PointerNull) {
