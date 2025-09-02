@@ -12,16 +12,32 @@ TEST(Performance, MillionAssertions) {
     auto start = std::chrono::steady_clock::now();
 
     for(int i = 0; i < 1'000'000; ++i) {
-        EXPECT_TRUE(i >= 0); // всегда true
+        EXPECT_TRUE(i >= 0);
     }
 
     auto end = std::chrono::steady_clock::now();
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
                   .count();
 
-    std::cout << "[ PERF ] MillionAssertions completed in " << ms << " ms\n";
+    std::cout << "[ PERFOM ] MillionAssertions completed in " << ms << " ms\n";
 
     ASSERT_TRUE(ms < 2000);
+}
+
+TEST(Performance, BillionAssertions) {
+    auto start = std::chrono::steady_clock::now();
+
+    for(int i = 0; i < 1'000'000'000; ++i) {
+        EXPECT_TRUE(i >= 0);
+    }
+
+    auto end = std::chrono::steady_clock::now();
+    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
+                  .count();
+
+    std::cout << "[ PERFOM ] BillionAssertions completed in " << ms << " ms\n";
+
+    ASSERT_TRUE(ms < 5000);
 }
 
 TEST(Performance, VectorSum) {
@@ -34,8 +50,8 @@ TEST(Performance, VectorSum) {
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
                   .count();
 
-    std::cout << "[ PERF ] VectorSum completed in " << ms << " ms (sum=" << sum
-              << ")\n";
+    std::cout << "[ PERFOM ] VectorSum completed in " << ms
+              << " ms (sum=" << sum << ")\n";
 
     ASSERT_EQ(sum, 10'000'000);
     ASSERT_TRUE(ms < 3000);
