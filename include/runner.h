@@ -1,6 +1,6 @@
 #pragma once
 
-#include "core/test_log.h"
+#include "test_log.h"
 #include "registry.h"
 #include "test_state.h"
 

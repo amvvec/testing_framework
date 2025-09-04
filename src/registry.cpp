@@ -1,4 +1,4 @@
-#include "core/registry.h"
+#include "registry.h"
 
 namespace testing {
 
