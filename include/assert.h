@@ -26,16 +26,20 @@ namespace testing {
 
 #define ASSERT_EQ(a, b)                                                        \
     do {                                                                       \
-        testing::get_output().compare_values((a), (b), std::equal_to<>(),      \
-                                             __FILE__, __LINE__, "ASSERT_EQ"); \
-        return;                                                                \
+        if(!testing::get_output().compare_values((a), (b), std::equal_to<>(),  \
+                                                 __FILE__, __LINE__,           \
+                                                 "ASSERT_EQ")) {               \
+            return;                                                            \
+        }                                                                      \
     } while(0)
 
 #define ASSERT_NE(a, b)                                                        \
     do {                                                                       \
-        testing::get_output().compare_values((a), (b), std::not_equal_to<>(),  \
-                                             __FILE__, __LINE__, "ASSERT_NE"); \
-        return;                                                                \
+        if(!testing::get_output().compare_values(                              \
+               (a), (b), std::not_equal_to<>(), __FILE__, __LINE__,            \
+               "ASSERT_NE")) {                                                 \
+            return;                                                            \
+        }                                                                      \
     } while(0)
 
 } // namespace testing
