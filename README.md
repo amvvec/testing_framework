@@ -23,7 +23,6 @@ ASSERT_* → останавливает тест после ошибки
 
 EXPECT_* → фиксирует ошибку, но продолжает выполнение
 
-
 Автоматический сбор и запуск всех тестов
 
 ---
@@ -35,8 +34,8 @@ EXPECT_* → фиксирует ошибку, но продолжает выпо
 git clone https://github.com/username/project.git
 cd project
 mkdir build && cd build
-cmake ..
-cmake --build .
+time cmake ..
+time cmake --build .
 
 После сборки:
 
@@ -61,4 +60,3 @@ TEST(Strings, Compare) {
     std::string b = "world";
     EXPECT_NE(a, b);
 }
-

@@ -1,6 +1,5 @@
-#include "core/runner.h"
-
-#include "core/test_output.h"
+#include "runner.h"
+#include "test_output.h"
 
 #include <chrono>
 #include <functional>

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "core/assert.h"
-#include "core/expect.h"
-#include "core/macros.h"
-#include "core/registry.h"
-#include "core/runner.h"
-#include "core/test_state.h"
+#include "assert.h"
+#include "expect.h"
+#include "macros.h"
+#include "registry.h"
+#include "runner.h"
+#include "test_state.h"
 
 namespace testing {} // namespace testing
