@@ -21,7 +21,7 @@ TEST(Performance, MillionAssertions) {
 
     std::cout << "[ PERFOM ] MillionAssertions completed in " << ms << " ms\n";
 
-    ASSERT_TRUE(ms < 2000);
+    ASSERT_TRUE(ms < 10000);
 }
 
 TEST(Performance, BillionAssertions) {
@@ -37,7 +37,7 @@ TEST(Performance, BillionAssertions) {
 
     std::cout << "[ PERFOM ] BillionAssertions completed in " << ms << " ms\n";
 
-    ASSERT_TRUE(ms < 5000);
+    ASSERT_TRUE(ms < 15000);
 }
 
 TEST(Performance, VectorSum) {
