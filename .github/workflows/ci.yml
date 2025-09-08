@@ -1,4 +1,4 @@
-name: CI (GCC Matrix)
+name: CI
 
 on:
   push:
@@ -7,6 +7,18 @@ on:
     branches: [ main ]
 
 jobs:
+  code-format-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkoutv3
+      
+      - name: Install clang-format
+        run: sudo apt-get install -y clang-format
+        
+      - name: Run clang-format
+        run: |
+          find . -name '*.cpp' -o -name '*.h' | xargs clang-format -i
+
   build-and-test:
     runs-on: ubuntu-latest
     strategy:
@@ -17,13 +29,13 @@ jobs:
     - name: Checkout source code
       uses: actions/checkout@v3
 
-    - name: Install dependencies (CMake + GCC)
+    - name: Install dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y cmake g++-${{ matrix.gcc }} valgrind
         sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${{ matrix.gcc }} 100
 
-    - name: Configure with CMake
+    - name: Configure with cmake
       run: |
         mkdir build
         cd build
@@ -42,7 +54,7 @@ jobs:
     - name: Checkout source code
       uses: actions/checkout@v3
 
-    - name: Install dependencies (CMake + GCC + Valgrind)
+    - name: Install dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y cmake g++ valgrind

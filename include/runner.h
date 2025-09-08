@@ -1,7 +1,7 @@
 #pragma once
 
-#include "test_log.h"
 #include "registry.h"
+#include "test_log.h"
 #include "test_state.h"
 
 #include <memory>
