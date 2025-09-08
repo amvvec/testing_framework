@@ -1,0 +1,9 @@
+Checks: >
+  clang-analyzer-*,
+  bugprone-*,
+  performance-*,
+  modernize-*,
+  modernize-deprecated-headers,
+  modernize-use-nullptr
+  -clang-analyzer-alpha.*
+WarningsAsErrors: '*'

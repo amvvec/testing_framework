@@ -10,7 +10,7 @@ jobs:
   code-format-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkoutv3
+      - uses: actions/checkout@v3
       
       - name: Install clang-format
         run: sudo apt-get install -y clang-format
