@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        gcc: [11, 12, 13]
+        compiler: [g++-11, g++-12, g++-13, clang++-15, clang++-16]
 
     steps:
     - name: Checkout source code
@@ -32,14 +32,27 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y cmake g++-${{ matrix.gcc }} valgrind
-        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${{ matrix.gcc }} 100
+        if [[ "${{ matrix.compiler }}" == clang* ]]; then
+          sudo apt-get install -y cmake clang lldb lld
+        else
+          sudo apt-get install -y cmake ${{ matrix.compiler }} valgrind
+        fi
+
+    - name: Set compiler
+      run: |
+        if [[ "${{ matrix.compiler }}" == clang* ]]; then
+          export CXX=${{ matrix.compiler }}
+        else
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/${{ matrix.compiler }} 100
+          export CXX=${{ matrix.compiler }}
+        fi
+        echo "CXX=$CXX" >> $GITHUB_ENV
 
     - name: Configure with cmake
       run: |
         mkdir build
         cd build
-        cmake .. -DCMAKE_BUILD_TYPE=Release
+        cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=$CXX
 
     - name: Build project
       run: cmake --build build -j$(nproc)
