@@ -3,6 +3,16 @@
 #include "macros.h"
 #include "registry.h"
 
-class Fixture {
-public:
-};
+namespace testing {
+
+template <typename T>
+inline void setup(T&) {
+}
+
+template <typename>
+inline void teardown(T&) {
+}
+
+class Fixture {};
+
+} // namespace testing
