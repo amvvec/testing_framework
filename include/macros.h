@@ -12,10 +12,17 @@ namespace testing {
     static void test_##group##_##name()
 
 // Test macro for fixtures
-#define TEST_F(group, name, par)                                               \
-    static void test_##group##__##name##_##par();                              \
-    static testing::AutoTestRegister test_##group##__##name##_##par(           \
-        #group, #name, #par, test_##group##__##name##_##par);                  \
-    static void test_##group##__##name##_##par()
+#define TEST_F(fixture, name)                                                  \
+    static void fixture##_##name##_test(                                       \
+        fixture& fix) static void fixture##_##name##_wrapper();                \
+    static testing::AutoTestRegister auto_##fixture##_##name(                  \
+        #fixture, #name, &fixture##_##name##_wrapper);                         \
+    static void fixture##_##name##_wrapper() {                                 \
+        fixture fix;                                                           \
+        setup(fix);                                                            \
+        fixture##_##name##_test(fix);                                          \
+        teardown(fix);                                                         \
+    }                                                                          \
+    static void fixture##_##name##_test(fixture& fix)
 
 } // namespace testing
