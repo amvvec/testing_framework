@@ -2,8 +2,6 @@
 
 #include "test_output.h"
 
-namespace testing {
-
 #define EXPECT_TRUE(condition)                                                 \
     do {                                                                       \
         if(!(condition)) {                                                     \
@@ -33,5 +31,3 @@ namespace testing {
         testing::get_output().compare_values((a), (b), std::not_equal_to<>(),  \
                                              __FILE__, __LINE__, "EXPECT_NE"); \
     } while(0)
-
-} // namespace testing

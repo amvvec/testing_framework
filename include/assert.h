@@ -2,8 +2,6 @@
 
 #include "test_output.h"
 
-namespace testing {
-
 #define ASSERT_TRUE(condition)                                                 \
     do {                                                                       \
         if(!(condition)) {                                                     \
@@ -41,5 +39,3 @@ namespace testing {
             return;                                                            \
         }                                                                      \
     } while(0)
-
-} // namespace testing

@@ -5,12 +5,12 @@
 
 namespace testing {
 
-template <typename T>
-inline void setup(T&) {
+template <typename Fixture>
+inline void setup(Fixture&) {
 }
 
-template <typename>
-inline void teardown(T&) {
+template <typename Fixture>
+inline void teardown(Fixture&) {
 }
 
 class Fixture {};
