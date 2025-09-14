@@ -15,12 +15,14 @@ TestRunner::TestRunner() {
     state_ = std::make_unique<TestState>();
 }
 
+using clock = std::chrono::steady_clock;
+
 TestResult TestRunner::run_test(const TestCase& test) {
     TestResult result{test.group(), test.name(), false, "", 0};
 
     get_log().log_run(test.group(), test.name());
 
-    auto start = std::chrono::steady_clock::now();
+    auto start = clock::now();
 
     auto local_state = std::make_unique<TestState>();
     get_current_test_state() = local_state.get();
@@ -40,7 +42,7 @@ TestResult TestRunner::run_test(const TestCase& test) {
         result.error_message = "Uknown exception";
     }
 
-    auto end = std::chrono::steady_clock::now();
+    auto end = clock::now();
     result.duration_ms =
         std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
             .count();
@@ -75,7 +77,7 @@ int TestRunner::run_all_tests() {
 
     size_t passed = 0, failed = 0;
 
-    auto total_start = std::chrono::steady_clock::now();
+    auto total_start = clock::now();
 
     for(const auto& test : tests) {
         // Skip empty or duplicate tests
@@ -91,7 +93,7 @@ int TestRunner::run_all_tests() {
         results_.back().passed ? passed++ : failed++;
     }
 
-    auto total_end = std::chrono::steady_clock::now();
+    auto total_end = clock::now();
     auto total_duration = std::chrono::duration_cast<std::chrono::milliseconds>(
                               total_end - total_start)
                               .count(); // Duration of all tests

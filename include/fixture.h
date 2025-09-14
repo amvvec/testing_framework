@@ -1,8 +1,5 @@
 #pragma once
 
-#include "macros.h"
-#include "registry.h"
-
 namespace testing {
 
 template <typename Fixture>
