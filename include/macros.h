@@ -11,16 +11,18 @@ namespace testing {
     static void test_##group##_##name()
 
 #define TEST_F(fixture, name)                                                  \
-    static void fixture##_##name##_test(                                       \
-        fixture& fix) static void fixture##_##name##_wrapper();                \
+    class fixture##_##name##_Test : public fixture {                           \
+    public:                                                                    \
+        void TestBody();                                                       \
+    };                                                                         \
+    static void fixture##_##name##_wrapper() {                                 \
+        testing::run_fixture<fixture##_##name##_Test>(                         \
+            [](fixture##_##name##_Test& t) {                                   \
+                t.TestBody();                                                  \
+            });                                                                \
+    }                                                                          \
     static testing::AutoTestRegister auto_##fixture##_##name(                  \
         #fixture, #name, &fixture##_##name##_wrapper);                         \
-    static void fixture##_##name##_wrapper() {                                 \
-        fixture fix;                                                           \
-        setup(fix);                                                            \
-        fixture##_##name##_test(fix);                                          \
-        teardown(fix);                                                         \
-    }                                                                          \
-    static void fixture##_##name##_test(fixture& fix)
+    void fixture##_##name##_Test::TestBody()
 
 } // namespace testing
