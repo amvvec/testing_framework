@@ -1,7 +1,5 @@
 #include "runner.h"
 
-#include "test_output.h"
-
 #include <chrono>
 #include <functional>
 #include <iostream>
