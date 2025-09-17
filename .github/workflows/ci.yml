@@ -11,73 +11,68 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Install clang-format
-        run: sudo apt-get install -y clang-format
-        
-      - name: Run clang-format
+        run: sudo apt-get update && sudo apt-get install -y clang-format
+
+      - name: Run clang-format (check only)
         run: |
           find . -name '*.cpp' -o -name '*.h' | xargs clang-format -i
+          git diff --exit-code || (echo "Code not formatted!" && exit 1)
 
   build-and-test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        compiler: [g++-11, g++-12, g++-13, clang++-15, clang++-16]
+        compiler: [g++, clang++]
 
     steps:
-    - name: Checkout source code
-      uses: actions/checkout@v3
+      - name: Checkout source code
+        uses: actions/checkout@v3
 
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        if [[ "${{ matrix.compiler }}" == clang* ]]; then
-          sudo apt-get install -y cmake clang lldb lld
-        else
-          sudo apt-get install -y cmake ${{ matrix.compiler }} valgrind
-        fi
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          if [[ "${{ matrix.compiler }}" == "clang++" ]]; then
+            sudo apt-get install -y cmake clang lldb lld
+          else
+            sudo apt-get install -y cmake g++ valgrind
+          fi
 
-    - name: Set compiler
-      run: |
-        if [[ "${{ matrix.compiler }}" == clang* ]]; then
-          export CXX=${{ matrix.compiler }}
-        else
-          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/${{ matrix.compiler }} 100
-          export CXX=${{ matrix.compiler }}
-        fi
-        echo "CXX=$CXX" >> $GITHUB_ENV
+      - name: Set compiler
+        run: |
+          echo "CXX=${{ matrix.compiler }}" >> $GITHUB_ENV
 
-    - name: Configure with cmake
-      run: |
-        mkdir build
-        cd build
-        cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=$CXX
+      - name: Configure with CMake
+        run: |
+          cmake -S . -B build \
+                -DCMAKE_BUILD_TYPE=Release \
+                -DCMAKE_CXX_COMPILER=${{ matrix.compiler }}
 
-    - name: Build project
-      run: cmake --build build -j$(nproc)
+      - name: Build project
+        run: cmake --build build -j$(nproc)
 
-    - name: Run unit tests
-      run: cd build && ./launch
+      - name: Run unit tests
+        run: cd build && ctest --output-on-failure
 
   valgrind-check:
     runs-on: ubuntu-latest
     needs: build-and-test
     steps:
-    - name: Checkout source code
-      uses: actions/checkout@v3
+      - name: Checkout source code
+        uses: actions/checkout@v3
 
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y cmake g++ valgrind
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake g++ valgrind
 
-    - name: Configure and build
-      run: |
-        mkdir build
-        cd build
-        cmake .. -DCMAKE_BUILD_TYPE=Debug
-        cmake --build . -j$(nproc)
+      - name: Configure and build
+        run: |
+          cmake -S . -B build \
+                -DCMAKE_BUILD_TYPE=Debug \
+                -DCMAKE_CXX_COMPILER=g++
+          cmake --build build -j$(nproc)
 
-    - name: Run memory check
-      run: cd build && valgrind --error-exitcode=1 ./launch
+      - name: Run memory check
+        run: cd build && valgrind --error-exitcode=1 ./launch
