@@ -2,14 +2,22 @@
 
 namespace testing {
 
-template <typename Fixture>
-inline void setup(Fixture&) {
-}
+class Test {
+public:
+    virtual ~Test() = default;
 
-template <typename Fixture>
-inline void teardown(Fixture&) {
-}
+    virtual void set_up() {
+    }
+    virtual void tear_down() {
+    }
+};
 
-class Fixture {};
+template <typename Test, typename TestFunc>
+void RunFixture(TestFunc&& func) {
+    Test fix;
+    fix.set_up();
+    func(fix);
+    fix.tear_down();
+}
 
 } // namespace testing

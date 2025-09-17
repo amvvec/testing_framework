@@ -16,7 +16,7 @@ namespace testing {
         void TestBody();                                                       \
     };                                                                         \
     static void fixture##_##name##_wrapper() {                                 \
-        testing::run_fixture<fixture##_##name##_Test>(                         \
+        testing::RunFixture<fixture##_##name##_Test>(                          \
             [](fixture##_##name##_Test& t) {                                   \
                 t.TestBody();                                                  \
             });                                                                \
